@@ -1,0 +1,12 @@
+#ifndef LIBMR9270S_GLOBAL_H
+#define LIBMR9270S_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(LIBMR9270S_LIBRARY)
+#  define LIBMR9270SSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define LIBMR9270SSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // LIBMR9270S_GLOBAL_H
