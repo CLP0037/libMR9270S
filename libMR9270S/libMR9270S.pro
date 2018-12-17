@@ -6,9 +6,14 @@
 
 QT       -= gui
 
+include(gitversion.pri)
+
 TARGET = libMR9270S
 TEMPLATE = lib
-
+CONFIG += skip_target_version_ext
+unix{
+    CONFIG += staticlib #编译选项，使用静态库staticlib，默认是动态库
+}
 DEFINES += LIBMR9270S_LIBRARY
 
 SOURCES += libmr9270s.cpp
@@ -47,3 +52,6 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+OTHER_FILES += \
+    gitversion.pri

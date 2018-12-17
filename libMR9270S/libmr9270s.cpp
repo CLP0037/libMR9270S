@@ -3,19 +3,24 @@
 
 LibMR9270S::LibMR9270S()
 {
+    //mb_MR9270S = new modbus_t();
+    mb_MR9270S = NULL;
 }
 
 LibMR9270S::~LibMR9270S()
 {
-
+    delete mb_MR9270S;
 }
 
 bool LibMR9270S::dev_connect(QString comm, int baud, char parity, int data_bit, int stop_bit,int addr)
 {
     int rtn;
     char* portname;
-    portname = str2charx(comm);
-    mb_MR9270S = modbus_new_rtu(portname,baud,parity,data_bit,stop_bit);
+    QByteArray temp_ba = comm.trimmed().toLatin1();
+    portname = temp_ba.data();
+    //portname = str2charx(comm);
+    mb_MR9270S = modbus_new_rtu(portname,baud,parity,data_bit,stop_bit);//portname   parity
+    //mb_MR9270S = modbus_new_rtu("COM3", 19200, 'N', 8, 1);
     if (mb_MR9270S == NULL)
     {
         //fprintf(stderr, "Unable to allocate libmodbus context\n");
@@ -25,7 +30,7 @@ bool LibMR9270S::dev_connect(QString comm, int baud, char parity, int data_bit, 
     rtn = modbus_set_slave(mb_MR9270S, addr);  //设置modbus从机地址
      if(rtn == -1)
      {
-         qDebug()<<QString("errno : %1;error info : %2").arg(errno).arg(modbus_strerror(errno));
+         qDebug()<<QString("modbus_set_slave errno : %1;error info : %2").arg(errno).arg(modbus_strerror(errno));
          mb_MR9270S = NULL;
          return false;
      }
@@ -33,7 +38,7 @@ bool LibMR9270S::dev_connect(QString comm, int baud, char parity, int data_bit, 
     rtn = modbus_connect(mb_MR9270S);
      if(rtn == -1)
      {
-         qDebug()<<QString("errno : %1;error info : %2").arg(errno).arg(modbus_strerror(errno));
+         qDebug()<<QString("modbus_connect errno : %1;error info : %2").arg(errno).arg(modbus_strerror(errno));
          mb_MR9270S = NULL;
          return false;
      }
@@ -149,7 +154,7 @@ bool LibMR9270S::dev_set_I_output(float value,int type)
 {
     int data_set = (int)(value * 1000);
 
-    sMR9270S_Data[8] = 4;
+    sMR9270S_Data[8] = 0;
     sMR9270S_Data[11] = type;
     sMR9270S_Data[17] = data_set;
     return dev_operate_registers(0,2,35, 2, 0);
@@ -160,7 +165,7 @@ bool LibMR9270S::dev_set_U_output(float value,int type)
 {
     int data_set = (int)(value * 1000);
 
-    sMR9270S_Data[8] = 4;
+    sMR9270S_Data[8] = 1;
     sMR9270S_Data[11] = type;
     sMR9270S_Data[17] = data_set;
     return dev_operate_registers(0,2,35, 2, 0);
