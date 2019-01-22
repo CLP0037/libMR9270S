@@ -21,12 +21,16 @@ HEADERS  += ../libMR9270S/libmr9270s.h
 
 FORMS    += mainwindow.ui
 
-INCLUDEPATH += ../include
-
+win32{
+    INCLUDEPATH += ../include
+}
 
 unix {
-    HEADERS += INCLUDEPATH += /usr/local/include/modbus
-    #LIBS += -L/usr/lib -lmodbus
+    HEADERS += /usr/local/include/modbus/modbus.h  \
+               /usr/local/include/modbus/modbus-rtu.h  \
+               /usr/local/include/modbus/modbus-tcp.h
+    INCLUDEPATH += /usr/local/include/modbus
+    LIBS += -L/usr/local/lib -lmodbus
 }
 #LIBS     += -L$$PWD/../lib/debug/ -llibMR9270S
 win32:CONFIG(release, debug|release): LIBS     += -L$$PWD/../lib/release/ -llibMR9270S

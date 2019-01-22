@@ -47,9 +47,9 @@ unix {
 #https://github.com/stephane/libmodbus
 #install automake, autoconf, libtool and a C compiler (gcc or clang) to compile the library and asciidoc and xmlto to generate the documentation (optional).
 #./configure && make install. Run ./autogen.sh first to generate the configure script if required.
-    HEADERS += /usr/include/modbus/modbus.h  \
-               /usr/include/modbus/modbus-rtu.h  \
-               /usr/include/modbus/modbus-tcp.h
+    HEADERS += /usr/local/include/modbus/modbus.h  \
+               /usr/local/include/modbus/modbus-rtu.h  \
+               /usr/local/include/modbus/modbus-tcp.h
     #
     # INCLUDEPATH += /usr/include/modbus
     # LIBS += -L/usr/lib -lmodbus
@@ -64,5 +64,4 @@ unix {
 #    INSTALLS += target
 #}
 
-OTHER_FILES += \
-    gitversion.pri
+OTHER_FILES += gitversion.pri
