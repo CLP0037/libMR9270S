@@ -35,16 +35,24 @@ HEADERS  += mainwindow.h \
     ../include/modbus-tcp-private.h \
     ../include/modbus-version.h
 INCLUDEPATH += ../include
-LIBS     += -Ldll -lws2_32
-LIBS     += -L$$PWD/../lib/ -lmodbus
+#LIBS     += -Ldll -lws2_32
+LIBS     += -L$$PWD/../lib/win/ -lws2_32
+LIBS     += -L$$PWD/../lib/win/ -lmodbus
 
 }
 unix {
+#https://github.com/stephane/libmodbus
+#install automake, autoconf, libtool and a C compiler (gcc or clang) to compile the library and asciidoc and xmlto to generate the documentation (optional).
+#./configure && make install. Run ./autogen.sh first to generate the configure script if required.
     HEADERS += /usr/include/modbus/modbus.h  \
                /usr/include/modbus/modbus-rtu.h  \
                /usr/include/modbus/modbus-tcp.h
-    INCLUDEPATH += /usr/include/modbus
-    LIBS += -L/usr/lib -lmodbus
+    #
+    # INCLUDEPATH += /usr/include/modbus
+    # LIBS += -L/usr/lib -lmodbus
+    # ubuntu
+    INCLUDEPATH += /usr/local/include/modbus
+    LIBS += -L/usr/local/lib -lmodbus
 }
 
 

@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     //ui->label_linkstate1->setText("好的");
+    comm_int();
 }
 
 MainWindow::~MainWindow()
@@ -23,12 +24,33 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::comm_int()
+{
+    foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts())
+    {
+        qDebug() << "Name        : " << info.portName();
+        qDebug() << "Description : " << info.description();
+        qDebug() << "Manufacturer: " << info.manufacturer();
+
+        QSerialPort serial;
+        serial.setPort(info);
+        if (serial.open(QIODevice::ReadWrite))
+        {
+           ui->comboBox_comm->addItem(serial.portName());
+           serial.close();
+        }
+    }
+}
+
 void MainWindow::on_btn_connect_clicked()
 {
     ui->label_linkstate1->setText("");
     ui->label_outputtype->setText("");
     ui->label_outputstate->setText("");
-    bool rtn = dev_MR9270S->dev_connect("COM3", 19200, 'N', 8, 1,2);
+
+    QString commPort = ui->comboBox_comm->currentText().trimmed();
+
+    bool rtn = dev_MR9270S->dev_connect(commPort, 19200, 'N', 8, 1,2);//"COM3"
     if(rtn)
     {
         ui->label_linkstate1->setText("设备连接成功");//"dev link success"g_C2Q("设备连接成功")
