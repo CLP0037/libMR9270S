@@ -31,4 +31,4 @@ unix {
 #LIBS     += -L$$PWD/../lib/debug/ -llibMR9270S
 win32:CONFIG(release, debug|release): LIBS     += -L$$PWD/../lib/release/ -llibMR9270S
 else:win32:CONFIG(debug, debug|release): LIBS     += -L$$PWD/../lib/debug/ -llibMR9270S
-else:unix:LIBS     += -L$$PWD/../lib/ -llibMR9270S
+else:unix:LIBS     += -L$$PWD/../lib_linux/  -lMR9270S # -llibMR9270S

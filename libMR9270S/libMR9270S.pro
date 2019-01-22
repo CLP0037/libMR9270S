@@ -8,10 +8,13 @@ QT       -= gui
 
 include(gitversion.pri)
 
-TARGET = libMR9270S
+win32{
+    TARGET = libMR9270S
+}
 TEMPLATE = lib
 CONFIG += skip_target_version_ext
 unix{
+    TARGET = MR9270S  # auto add lib
     CONFIG += staticlib #编译选项，使用静态库staticlib，默认是动态库
 }
 DEFINES += LIBMR9270S_LIBRARY
@@ -23,7 +26,7 @@ HEADERS += libmr9270s.h\
 
 win32:CONFIG(release, debug|release): DESTDIR =../lib/release
 else:win32:CONFIG(debug, debug|release): DESTDIR =../lib/debug
-else:unix:DESTDIR =../lib
+else:unix:DESTDIR =../lib_linux
 
 win32{
 HEADERS  += mainwindow.h \
@@ -56,10 +59,10 @@ unix {
 }
 
 
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
+#unix {
+#    target.path = /usr/lib
+#    INSTALLS += target
+#}
 
 OTHER_FILES += \
     gitversion.pri
